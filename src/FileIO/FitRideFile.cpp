@@ -453,6 +453,51 @@ struct FitFileReaderState
                 case -1: return "Dynastream";
                 default: return QString("Dynastream %1").arg(prod);
             }
+        } else if (manu == 23) {
+            // Suunto
+            switch (prod) {
+                case -1: return "Suunto";
+                case 1: return "Suunto x9";
+                case 2: return "Suunto x10";
+                case 3: return "Suunto x6";
+                case 4: return "Suunto Memory Belt";
+                case 5: return "Suunto Smart Belt";
+                case 6: return "Suunto t6";
+                case 7: return "Suunto t6c";
+                case 8: return "Suunto t6d";
+                case 9: return "Suunto t4";
+                case 10: return "Suunto t4c";
+                case 11: return "Suunto t4d";
+                case 12: return "Suunto t3";
+                case 13: return "Suunto t3c";
+                case 14: return "Suunto t3d";
+                case 15: return "Suunto m4 ";
+                case 16: return "Suunto m5";
+                case 17: return "Suunto Quest";
+                case 18: return "Suunto Ambit";
+                case 19: return "Suunto Ambit2";
+                case 20: return "Suunto Ambit2 S";
+                case 21: return "Suunto Ambit2 R";
+                case 22: return "Suunto Ambit3 Peak";
+                case 23: return "Suunto Ambit3 Sport";
+                case 24: return "Suunto Ambit3 Run";
+                case 25: return "Suunto Ambit3 Vertical";
+                case 26: return "Suunto Traverse";
+                case 27: return "Suunto Traverse Alpha";
+                case 28: return "Suunto Spartan Sport";
+                case 29: return "Suunto Spartan Ultra";
+                case 30: return "Suunto Spartan Sport Wrist HR";
+                case 31: return "Suunto Spartan Trainer Wrist HR";
+                case 32: return "Suunto Spartan Sport Wrist HR Baro";
+                case 33: return "Suunto 3 Fitness";
+                case 34: return "Suunto 9 Baro";
+                case 35: return "Suunto 9";
+                case 36: return "Suunto 5";
+                case 37: return "Suunto EON Core";
+                case 38: return "Suunto EON Steel";
+                case 39: return "Suunto D5";
+                default: return QString("Suunto %1").arg(prod);
+            }
         } else if (manu == 29 ) {
             // saxonar
             switch (prod) {

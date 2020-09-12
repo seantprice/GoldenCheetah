@@ -53,6 +53,7 @@ OAuthDialog::OAuthDialog(Context *context, OAuthSite site, CloudService *service
         if (service->id() == "SportTracks.mobi") site = this->site = SPORTTRACKS;
         if (service->id() == "Xert") site = this->site = XERT;
         if (service->id() == "RideWithGPS") site = this->site = RIDEWITHGPS;
+        if (service->id() == "Suunto") site = this->site = SUUNTO;
     }
 
     // check if SSL is available - if not - message and end
@@ -188,11 +189,17 @@ OAuthDialog::OAuthDialog(Context *context, OAuthSite site, CloudService *service
     } else if (site == XERT) {
         urlChanged(QUrl("http://www.goldencheetah.org/?code=0"));
     }
+    else if (site == SUUNTO) {
+        urlstr = QString("https://cloudapi-oauth.suunto.com/oauth/authorize?");
+        urlstr.append("response_type=code&");
+        urlstr.append("client_id=").append(GC_SUUNTO_CLIENT_ID).append("&");
+        urlstr.append("redirect_uri=http://www.goldencheetah.org/");
+    }
 
     //
     // STEP 1: LOGIN AND AUTHORISE THE APPLICATION
     //
-    if (site == DROPBOX || site == STRAVA || site == CYCLING_ANALYTICS || site == POLAR || site == SPORTTRACKS || site == GOOGLE_CALENDAR || site == GOOGLE_DRIVE || site == KENTUNI || site == TODAYSPLAN || site == WITHINGS) {
+    if (site == DROPBOX || site == STRAVA || site == CYCLING_ANALYTICS || site == POLAR || site == SPORTTRACKS || site == GOOGLE_CALENDAR || site == GOOGLE_DRIVE || site == KENTUNI || site == TODAYSPLAN || site == WITHINGS || site == SUUNTO) {
 
         url = QUrl(urlstr);
         view->setUrl(url);
@@ -225,7 +232,7 @@ OAuthDialog::urlChanged(const QUrl &url)
     QString authheader;
 
     // sites that use this scheme
-    if (site == DROPBOX || site == STRAVA || site == CYCLING_ANALYTICS || site == TODAYSPLAN || site == POLAR || site == SPORTTRACKS || site == XERT || site == WITHINGS) {
+    if (site == DROPBOX || site == STRAVA || site == CYCLING_ANALYTICS || site == TODAYSPLAN || site == POLAR || site == SPORTTRACKS || site == XERT || site == WITHINGS || site == SUUNTO) {
 
         if (url.toString().startsWith("http://www.goldencheetah.org/?state=&code=") ||
                 url.toString().contains("blank.html?code=") ||
@@ -324,6 +331,11 @@ OAuthDialog::urlChanged(const QUrl &url)
                 params.addQueryItem("redirect_uri","http://www.goldencheetah.org");
                 params.addQueryItem("grant_type", "authorization_code");
 
+            } else if (site == SUUNTO) {
+                urlstr = QString("https://cloudapi-oauth.suunto.com/oauth/token?");
+                params.addQueryItem("grant_type", "authorization_code");
+                authheader = QString("%1:%2").arg(GC_SUUNTO_CLIENT_ID).arg(GC_SUUNTO_CLIENT_SECRET);
+                params.addQueryItem("redirect_uri", "http://www.goldencheetah.org/");
             }
 
             // all services will need us to send the temporary code received
@@ -337,8 +349,8 @@ OAuthDialog::urlChanged(const QUrl &url)
             QNetworkRequest request = QNetworkRequest(url);
             request.setHeader(QNetworkRequest::ContentTypeHeader,"application/x-www-form-urlencoded");
 
-            // client id and secret are encoded and sent in the header for POLAR and XERT
-            if (site == POLAR || site == XERT)  request.setRawHeader("Authorization", "Basic " +  authheader.toLatin1().toBase64());
+            // client id and secret are encoded and sent in the header for POLAR, XERT, and Suunto
+            if (site == POLAR || site == XERT || site == SUUNTO)  request.setRawHeader("Authorization", "Basic " +  authheader.toLatin1().toBase64());
 
             // now get the final token - but ignore errors
             manager = new QNetworkAccessManager(this);
@@ -579,6 +591,12 @@ OAuthDialog::networkRequestFinished(QNetworkReply *reply)
             QMessageBox information(QMessageBox::Information, tr("Information"), info);
             information.exec();
 
+        } else if (site == SUUNTO) {
+            service->setSetting(GC_SUUNTO_TOKEN, access_token);
+            service->setSetting(GC_SUUNTO_REFRESH_TOKEN, refresh_token);
+            QString info = QString(tr("Suunto authorization was successful."));
+            QMessageBox information(QMessageBox::Information, tr("Information"), info);
+            information.exec();
         }
 
     } else {

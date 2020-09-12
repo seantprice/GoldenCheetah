@@ -423,6 +423,9 @@
 #define GC_XERT_TOKEN                  "<athlete-private>xert/xert_token"
 #define GC_XERT_REFRESH_TOKEN          "<athlete-private>xert/refresh_token"
 #define GC_XERT_LAST_REFRESH           "<athlete-private>xert/last_refresh"
+// Suunto
+#define GC_SUUNTO_TOKEN                "<athlete-private>suunto_token"
+#define GC_SUUNTO_REFRESH_TOKEN        "<athlete-private>suunto_refresh_token"
 // --------------------------------------------------------------------------------
 #include <QSettings>
 #include <QFileInfo>

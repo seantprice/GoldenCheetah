@@ -47,6 +47,7 @@ public:
     typedef enum {
         NONE=0,
         STRAVA,
+        SUUNTO,
         DROPBOX,
         CYCLING_ANALYTICS,
         GOOGLE_CALENDAR,

@@ -262,6 +262,11 @@ macx {
 #DEFINES += GC_WITHINGS_CONSUMER_KEY=\\\"xxxxxxxxxxxxxxx\\\"
 #DEFINES += GC_WITHINGS_CONSUMER_SECRET=\\\"xxxxxxxxxxxxxxx\\\"
 
+# USING THE SUUNTO API (documented at https://apizone.suunto.com/docs/services/)
+#DEFINES += GC_SUUNTO_CLIENT_ID=\\\"xxxxxxxxxxxxxxxxxxxxxx\\\"
+#DEFINES += GC_SUUNTO_CLIENT_SECRET=\\\"xxxxxxxxxxxxxxxxxxxxxx\\\"
+#DEFINES += GC_SUUNTO_SUBSCRIPTION_KEY=\\\"xxxxxxxxxxxxxxxxxxxxxx\\\"
+
 # What video playback do you want?
 DEFINES += GC_VIDEO_NONE             # dont add any video playback support
 #DEFINES += GC_VIDEO_QUICKTIME       # mac only and the default
